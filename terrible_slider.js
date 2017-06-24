@@ -74,7 +74,7 @@ export default class TerribleSlider extends Component {
       this.setState({price:price});
 
       // break the spring
-      if (ratio_origin > 0.9) {
+      if (ratio_origin > 0.8) {
         if (!this.state.spring_broken) {
           this.setState({spring_broken:true, pan_spring:new Animated.Value(150), pan_spring_parent:-this.SPRING_LENGTH}, () => {
             Animated.parallel([
