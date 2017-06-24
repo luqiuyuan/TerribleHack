@@ -9,23 +9,21 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableOpacity
 } from 'react-native';
+import TerribleSlider from './terrible_slider';
 
 export default class TerribleHack extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
+        <TerribleSlider
+          ref = 'terrible_slider'
+          style = {styles.terrible_slider} />
+        <TouchableOpacity
+          style = {{width:150, height:50, backgroundColor:'#CE3E3E'}}
+          onPress = {()=>{this.refs.terrible_slider.drop()}}/>
       </View>
     );
   }
@@ -38,16 +36,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  terrible_slider: {
+    alignSelf: 'stretch'
+  }
 });
 
 AppRegistry.registerComponent('TerribleHack', () => TerribleHack);
