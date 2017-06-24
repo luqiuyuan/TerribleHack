@@ -12,6 +12,7 @@ import {
 import TerribleTextInput from './terribleTextInput';
 import TerribleSlider from './terrible_slider';
 import FlashButton from './FlashButton';
+import ShooterButton from './shooter_button';
 export default class TerribleHack extends Component {
   render() {
     return (
@@ -28,6 +29,10 @@ export default class TerribleHack extends Component {
         <View style={{height:12}} />
         <TerribleSlider
           style = {{width:303}}/>
+        <View style={{height:25}} />
+        <Text style={{width: 320}}>Payment?</Text>
+        <View style={{height:12}} />
+        <ShooterButton />
         <View style={{height:36}} />
         <FlashButton
           style={{
