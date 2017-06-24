@@ -57,15 +57,15 @@ export default class TerribleSlider extends Component {
   render() {
     let pan_spring = this.state.pan.x.interpolate({
       inputRange: [0, 100],
-      outputRange: [0, 100]
+      outputRange: [10, 110]
     });
 
     return (
       <View
         style = {[{flexDirection:'row', alignItems:'center'}, this.props.style]}>
         <Text
-          style = {{width: 30}}>
-          {this.state.price}
+          style = {{width: 40, alignItems:'center'}}>
+          $ {this.state.price}
         </Text>
         <View style={{flex:1, flexDirection:'row', alignItems:'center', height:this.DIMENSION}}>
           <View
@@ -78,7 +78,7 @@ export default class TerribleSlider extends Component {
           </Animated.View>
           <Animated.View
             {...this.panResponder.panHandlers}
-            style = {[this.state.pan.getLayout(), {position:'absolute', width:this.DIMENSION, height:this.DIMENSION, borderRadius:10, backgroundColor:'orange'}]} />
+            style = {[this.state.pan.getLayout(), {position:'absolute', marginLeft:10, width:this.DIMENSION, height:this.DIMENSION, borderRadius:10, backgroundColor:'orange'}]} />
         </View>
       </View>
     );
