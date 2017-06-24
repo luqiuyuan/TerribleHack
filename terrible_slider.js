@@ -4,7 +4,8 @@ import {
   Animated,
   PanResponder,
   Image,
-  Text
+  Text,
+  Easing
 } from 'react-native';
 
 export default class TerribleSlider extends Component {
@@ -103,5 +104,24 @@ export default class TerribleSlider extends Component {
         </View>
       </View>
     );
+  }
+
+  drop() {
+    Animated.sequence([
+      Animated.decay(
+        this.state.pan,
+        {
+          velocity: {x:0, y:-0.5},
+          deceleration: 0.992
+        }
+      ),
+      Animated.timing(
+        this.state.pan,
+        {
+          toValue: {x:this.state.pan.x._value, y:1000},
+          easing: Easing.quad
+        }
+      )
+    ]).start();
   }
 }

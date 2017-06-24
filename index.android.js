@@ -9,7 +9,8 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableOpacity
 } from 'react-native';
 import TerribleSlider from './terrible_slider';
 
@@ -18,7 +19,11 @@ export default class TerribleHack extends Component {
     return (
       <View style={styles.container}>
         <TerribleSlider
+          ref = 'terrible_slider'
           style = {styles.terrible_slider} />
+        <TouchableOpacity
+          style = {{width:150, height:50, backgroundColor:'#CE3E3E'}}
+          onPress = {()=>{this.refs.terrible_slider.drop()}}/>
       </View>
     );
   }
