@@ -15,6 +15,8 @@ export default class TerribleSlider extends Component {
     };
 
     this.DIMENSION = 20;
+    this.BAR_LENGTH = 200;
+    this.MAX_PRICE = 100;
 
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
@@ -42,25 +44,32 @@ export default class TerribleSlider extends Component {
     });
   }
 
+  componentWillMount() {
+    this.state.pan.addListener((value) => {
+      let ratio = value.x / this.BAR_LENGTH;
+      ratio = ratio < 1? ratio : 1;
+      ratio = ratio > 0? ratio : 0;
+      let price = Math.round(ratio * this.MAX_PRICE);
+      this.setState({price:price});
+    });
+  }
+
   render() {
     let pan_spring = this.state.pan.x.interpolate({
       inputRange: [0, 100],
-      outputRange: [10, 120]
+      outputRange: [0, 100]
     });
 
     return (
       <View
-        style = {[{flexDirection:'row', alignItems:'center'}, this.props.style]}
-        onLayout = {(e) => {this.setState({width:e.nativeEvent.layout.width})}}>
-        {this.state.width
-        ? <Text>
-            {this.state.width}
-          </Text>
-        : null
-        }
+        style = {[{flexDirection:'row', alignItems:'center'}, this.props.style]}>
+        <Text
+          style = {{width: 30}}>
+          {this.state.price}
+        </Text>
         <View style={{flex:1, flexDirection:'row', alignItems:'center', height:this.DIMENSION}}>
           <View
-            style = {{flex:1, borderBottomWidth:2, borderBottomColor:'gray'}} />
+            style = {{borderBottomWidth:2, borderBottomColor:'gray', width:this.BAR_LENGTH}} />
           <Animated.View
             style = {{position:'absolute', left:0}}>
             <Animated.Image
@@ -69,7 +78,7 @@ export default class TerribleSlider extends Component {
           </Animated.View>
           <Animated.View
             {...this.panResponder.panHandlers}
-            style = {[this.state.pan.getLayout(), {position:'absolute', width:this.DIMENSION, height:this.DIMENSION, borderRadius:10, backgroundColor:'orange', marginLeft:10}]} />
+            style = {[this.state.pan.getLayout(), {position:'absolute', width:this.DIMENSION, height:this.DIMENSION, borderRadius:10, backgroundColor:'orange'}]} />
         </View>
       </View>
     );

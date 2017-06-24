@@ -32,8 +32,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   terrible_slider: {
-    marginLeft: 50,
-    width: 150
+    alignSelf: 'stretch'
   }
 });
 
