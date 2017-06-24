@@ -87,7 +87,7 @@ export default class TerribleSlider extends Component {
         style = {[{flexDirection:'row', alignItems:'center'}, this.props.style]}>
         <Text
           style = {{width: 40, alignItems:'center'}}>
-          $ {this.state.price}
+          $ {this.state.price? this.state.price : 0}
         </Text>
         <View style={{flex:1, flexDirection:'row', alignItems:'center', height:this.DIMENSION}}>
           <View
