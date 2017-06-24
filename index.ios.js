@@ -1,17 +1,14 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+
 
 import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableOpacity
 } from 'react-native';
-
+import TerribleTextInput from './terribleTextInput';
 export default class TerribleHack extends Component {
   render() {
     return (
@@ -51,3 +48,7 @@ const styles = StyleSheet.create({
 });
 
 AppRegistry.registerComponent('TerribleHack', () => TerribleHack);
+
+
+
+        
