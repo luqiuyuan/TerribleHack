@@ -29,7 +29,7 @@ export default class TerribleHack extends Component {
         <View style={{height:12}} />
         <TerribleSlider
           style = {{width:303}}/>
-        <View style={{height:25}} />
+        <View style={{height:40}} />
         <Text style={{width: 320}}>Payment?</Text>
         <View style={{height:12}} />
         <ShooterButton />
