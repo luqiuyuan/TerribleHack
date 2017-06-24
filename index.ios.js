@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import TerribleTextInput from './terribleTextInput';
 import TerribleSlider from './terrible_slider';
+import FlashButton from './FlashButton';
 export default class TerribleHack extends Component {
   render() {
     return (
@@ -27,6 +28,15 @@ export default class TerribleHack extends Component {
         <View style={{height:12}} />
         <TerribleSlider
           style = {{width:303}}/>
+        <View style={{height:36}} />
+        <FlashButton
+          style={{
+            width: 200,
+            height: 200,
+            justifyContent: 'flex-start',
+            flexDirection: 'row',
+            alignItems: 'flex-start'
+          }}/>
       </View>
     );
   }
