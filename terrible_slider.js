@@ -13,12 +13,14 @@ export default class TerribleSlider extends Component {
     super(props);
     this.state = {
       pan: new Animated.ValueXY(),
-      spring_broken: false
+      spring_broken: false,
+      spring_rotate_value: new Animated.Value(0)
     };
 
     this.DIMENSION = 20;
     this.BAR_LENGTH = 263;
     this.MAX_PRICE = 100;
+    this.SPRING_LENGTH = 30
 
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
@@ -52,7 +54,15 @@ export default class TerribleSlider extends Component {
     this.setState({
       pan_spring: this.state.pan.x.interpolate({
         inputRange: [0, 100],
-        outputRange: [10, 110]
+        outputRange: [this.SPRING_LENGTH, 100+this.SPRING_LENGTH]
+      }),
+      pan_spring_parent: this.state.pan.x.interpolate({
+        inputRange: [0, 100],
+        outputRange: [-this.SPRING_LENGTH, -100-this.SPRING_LENGTH]
+      }),
+      spring_rotate: this.state.spring_rotate_value.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '360deg']
       })
     });
 
@@ -66,15 +76,25 @@ export default class TerribleSlider extends Component {
       // break the spring
       if (ratio_origin > 0.9) {
         if (!this.state.spring_broken) {
-          this.setState({spring_broken:true, pan_spring:new Animated.Value(150)}, () => {
-            Animated.spring(
-              this.state.pan_spring,
-              {
-                toValue: 10,
-                tension: 100,
-                friction: 7
-              }
-            ).start();
+          this.setState({spring_broken:true, pan_spring:new Animated.Value(150), pan_spring_parent:-this.SPRING_LENGTH}, () => {
+            Animated.parallel([
+              Animated.spring(
+                this.state.pan_spring,
+                {
+                  toValue: this.SPRING_LENGTH,
+                  tension: 30,
+                  friction: 3
+                }
+              ),
+              Animated.spring(
+                this.state.spring_rotate_value,
+                {
+                  toValue: 0.25,
+                  tension: 10,
+                  friction: 1
+                }
+              )
+            ]).start();
           });
         }
       }
@@ -93,14 +113,23 @@ export default class TerribleSlider extends Component {
           <View
             style = {{borderBottomWidth:2, borderBottomColor:'gray', width:this.BAR_LENGTH}} />
           <Animated.View
-            style = {{position:'absolute', left:0}}>
+            style = {{
+              position:'absolute',
+              left:this.state.pan_spring_parent,
+              flexDirection:'row',
+              transform: [
+                {rotate: this.state.spring_rotate}
+              ]
+            }}>
+            <Animated.View
+              style = {{width:this.state.pan_spring, height:this.DIMENSION}}/>
             <Animated.Image
               source = {require('./spring.png')}
               style = {{width:this.state.pan_spring, height:this.DIMENSION, resizeMode:'stretch'}} />
           </Animated.View>
           <Animated.View
             {...this.panResponder.panHandlers}
-            style = {[this.state.pan.getLayout(), {position:'absolute', marginLeft:10, width:this.DIMENSION, height:this.DIMENSION, borderRadius:10, backgroundColor:'orange'}]} />
+            style = {[this.state.pan.getLayout(), {position:'absolute', marginLeft:this.SPRING_LENGTH, width:this.DIMENSION, height:this.DIMENSION, borderRadius:10, backgroundColor:'orange'}]} />
         </View>
       </View>
     );
