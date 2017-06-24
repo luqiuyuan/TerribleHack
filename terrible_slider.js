@@ -11,11 +11,12 @@ export default class TerribleSlider extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        pan: new Animated.ValueXY()
+      pan: new Animated.ValueXY(),
+      spring_broken: false
     };
 
     this.DIMENSION = 20;
-    this.BAR_LENGTH = 200;
+    this.BAR_LENGTH = 300;
     this.MAX_PRICE = 100;
 
     this.panResponder = PanResponder.create({
@@ -32,34 +33,54 @@ export default class TerribleSlider extends Component {
       ]),
       onPanResponderRelease: (e, gesture) => {
         this.state.pan.flattenOffset();
-        Animated.spring(
-          this.state.pan,
-          {
-            toValue: 0,
-            tension: 100,
-            friction: 7
-          }
-        ).start();
+        if (!this.state.spring_broken) {
+          Animated.spring(
+            this.state.pan,
+            {
+              toValue: 0,
+              tension: 100,
+              friction: 7
+            }
+          ).start();
+        }
       }
     });
   }
 
   componentWillMount() {
+    this.setState({
+      pan_spring: this.state.pan.x.interpolate({
+        inputRange: [0, 100],
+        outputRange: [10, 110]
+      })
+    });
+
     this.state.pan.addListener((value) => {
-      let ratio = value.x / this.BAR_LENGTH;
-      ratio = ratio < 1? ratio : 1;
+      let ratio_origin = value.x / this.BAR_LENGTH;
+      let ratio = ratio_origin < 1? ratio_origin : 1;
       ratio = ratio > 0? ratio : 0;
       let price = Math.round(ratio * this.MAX_PRICE);
       this.setState({price:price});
+
+      // break the spring
+      if (ratio_origin > 0.9) {
+        if (!this.state.spring_broken) {
+          this.setState({spring_broken:true, pan_spring:new Animated.Value(150)}, () => {
+            Animated.spring(
+              this.state.pan_spring,
+              {
+                toValue: 10,
+                tension: 100,
+                friction: 7
+              }
+            ).start();
+          });
+        }
+      }
     });
   }
 
   render() {
-    let pan_spring = this.state.pan.x.interpolate({
-      inputRange: [0, 100],
-      outputRange: [10, 110]
-    });
-
     return (
       <View
         style = {[{flexDirection:'row', alignItems:'center'}, this.props.style]}>
@@ -74,7 +95,7 @@ export default class TerribleSlider extends Component {
             style = {{position:'absolute', left:0}}>
             <Animated.Image
               source = {require('./spring.png')}
-              style = {{width:pan_spring, height:this.DIMENSION, resizeMode:'stretch'}} />
+              style = {{width:this.state.pan_spring, height:this.DIMENSION, resizeMode:'stretch'}} />
           </Animated.View>
           <Animated.View
             {...this.panResponder.panHandlers}
