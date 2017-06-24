@@ -6,23 +6,27 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform
 } from 'react-native';
 import TerribleTextInput from './terribleTextInput';
+import TerribleSlider from './terrible_slider';
 export default class TerribleHack extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+        <View style={[{alignSelf:'stretch', height:88, justifyContent:'center', alignItems:'center'}, styles.shadow]}>
+          <Text style={{fontSize:18}}>Sell</Text>
+        </View>
+        <View style={{height:36}} />
+        <Text style={{width: 320}}>What to sell?</Text>
+        <View style={{height:12}} />
+        <TerribleTextInput />
+        <View style={{height:25}} />
+        <Text style={{width: 320}}>Price?</Text>
+        <View style={{height:12}} />
+        <TerribleSlider
+          style = {{width:303}}/>
       </View>
     );
   }
@@ -31,24 +35,31 @@ export default class TerribleHack extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  shadow: {
+      ...Platform.select({
+        ios: {
+          shadowColor: "#000000",
+          shadowOpacity: 0.8,
+          shadowRadius: 2,
+          shadowOffset: {
+            height: 2,
+            width: 0
+          },
+          marginTop: 1,
+          marginBottom: 5
+        },
+        android: {
+          borderColor: '#c8c8cc',
+          elevation: 3,
+          marginTop: 1,
+          marginBottom: 5
+        }
+      }),
+    }
 });
 
 AppRegistry.registerComponent('TerribleHack', () => TerribleHack);
-
-
-
-        

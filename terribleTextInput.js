@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  
+import {
   TextInput,
   Text,
   View,
@@ -11,7 +11,7 @@ export default class TerribleTextInput extends Component{
     constructor(props){
         super(props)
         this.state={
-            width:10,
+            width:100,
             disbale:false,
             maxLength:0,
             validating:true,
@@ -20,10 +20,10 @@ export default class TerribleTextInput extends Component{
     }
 
     render(){
-       
+
         let invalid=(
-            <View>       
-                <Text>String is not allow</Text>                
+            <View>
+                <Text>String is not allow</Text>
             </View>
         )
 
@@ -32,22 +32,23 @@ export default class TerribleTextInput extends Component{
         let reviewInput=(
                         <View>
                             <TextInput
-                                style={{height: 40, borderColor: 'gray', borderWidth: 1,width:100}}
+                                placeholder = "Want to try some pie?"
+                                style={{height: 40, borderColor: 'gray', borderWidth: 1,width:303}}
                                 onChangeText={this._piTextInput.bind(this)}
                             />
                             <View>{tes}</View>
                         </View>
                         )
-        
+
         return(
         <View>
             <TextInput
+                placeholder = "Title"
                 style={{height: 40, borderColor: 'gray', borderWidth: 1,width:this.state.width}}
                 editable={this.state.disbale}
                 maxLength={this.state.maxLength}
             />
-            
-            <Text>try here</Text>            
+            <View style={{height:12}} />
            {reviewInput}
         </View>
         )
@@ -63,23 +64,23 @@ export default class TerribleTextInput extends Component{
         if(text.length >this.state.temperary){
             if(this.checkPi(text)){
                     this.setState({
-                        width:this.state.width+20,
+                        width:this.state.width+10,
                         maxLength:this.state.maxLength+1,
                         disbale:true,
-                        temperary:this.state.maxLength
+                        temperary:this.state.maxLength+1
                     })
                 }
         }else{
             if(this.checkPi(text)){
                 this.setState({
-                    width:(this.state.width < 20 ? 10 : this.state.width-20),
+                    width:(this.state.width < 100 ? 100 : this.state.width-10),
                     maxLength:text.length,
-                    disbale:this.state.width > 10,
-                    temperary:this.state.maxLength
+                    disbale:this.state.width > 100,
+                    temperary:text.length
                 })
             }
         }
-        
+
         return tmp
     }
 
@@ -92,11 +93,10 @@ export default class TerribleTextInput extends Component{
     return true
    }
 }
-        
+
 /**
  * <View>
                     <Text>Oops you can type in to endure the length of your input </Text>
                 </View>
             }
  */
-        

@@ -17,7 +17,7 @@ export default class TerribleSlider extends Component {
     };
 
     this.DIMENSION = 20;
-    this.BAR_LENGTH = 300;
+    this.BAR_LENGTH = 263;
     this.MAX_PRICE = 100;
 
     this.panResponder = PanResponder.create({
